@@ -1,15 +1,21 @@
 from usuarios import crear_usuario ,cargar_usuarios, iniciar_sesion
         
-    
+
+# Funcion para cargar el menú desde un archivo
+def cargar_menu(filename):
+    with open(filename, 'r') as file:
+        opciones = file.readlines()
+    return [opcion.strip() for opcion in opciones]    
+
 #funcion principal login
 def main():
     usuarios = cargar_usuarios()
+    menu_opciones = cargar_menu('menu.txt')
     
     while True:
         print("==========Bienvenido a asteroides!===========")
-        print("1 - Crear un usuario nuevo")
-        print("2 - Ingresar con usuario existente")
-        print("3 - Salir del programa")
+        for opcion in menu_opciones:
+            print(opcion)
         opcion = input("Seleccione la opcion deseada (1,2,3):")
         print("==============================================")
         
