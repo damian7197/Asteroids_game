@@ -22,15 +22,23 @@ class Player(CircleShape):
         return [a, b, c]
     
     def rotate(self, dt):
-        self.rotation += PLAYER_TURN_SPEED * dt
+        self.rotation += PLAYER_TURN_SPEED * dt #Ajusto la rotacion en tiempo real
     
-    def update(self, dt):
+    def update(self, dt): #metodo que define como se comportan las teclas de movimiento
         keys = pygame.key.get_pressed()
-
+        if keys[pygame.K_w]:
+            self.move(dt)
+        if keys[pygame.K_s]:
+            self.move(-dt)
         if keys[pygame.K_a]:
-            self.rotate(dt*-1)
+            self.rotate(-dt)
         if keys[pygame.K_d]:
             self.rotate(dt)
+    
+    def move(self, dt): #definimos el movimiento hacia atras y adelante
+        forward = pygame.Vector2(0, 1).rotate(self.rotation) #creamos un vector, lo rotamos 
+        self.position += forward * PLAYER_SPEED * dt #calculamos su largo y lo agregamos a la posicion actual
+        
     
     
         
