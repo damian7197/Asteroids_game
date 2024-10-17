@@ -40,7 +40,7 @@ def main():
         
         for asteroid in asteroids:
             if asteroid.collides_with(player):
-                print("Game over!")
+                print("Game over!")  #bucle para detectar colisiones en todos los asteroides
                 sys.exit()
                 
         
