@@ -1,6 +1,8 @@
 import pygame
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     pygame.init()  
@@ -9,12 +11,18 @@ def main():
     #creando un objeto clock
     clock = pygame.time.Clock() 
     
-    udpatable = pygame.sprite.Group()
-    drawable = pygame.sprite.Group()
+    #creamos grupos de sprites para manejar objetos con caracteristicas en comun
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group() 
+    asteroids = pygame.sprite.Group()
     
-    Player.containers = (udpatable, drawable)
+    #Asignamos grupos a las clases, para que las instancias se manejen automaticamente
+    Player.containers = (updatable, drawable)   
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
     
     player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+    asteroidfield = AsteroidField()
     
     dt = 0 #delta time, por convencion
     
@@ -23,17 +31,17 @@ def main():
             if event.type == pygame.QUIT:
                 return
             
-        for obj in udpatable:
+        for obj in updatable: #se actualizan todos los objetos actualizables
             obj.update(dt)
         
         screen.fill((0,0,0)) #los parametros son el color
         
-        for obj in drawable:
-            obj.draw(screen)
+        for obj in drawable: #se actualizan todos los objetos dibujables
+            obj.draw(screen) 
         pygame.display.flip()
         
         #limitar el framerate a 60 FPS
-        dt = clock.tick(60) / 1000
+        dt = clock.tick(60) / 1000 #ademas convierto el tiempo a segundos para manejar la actualizacion de objetos
         
     
         
