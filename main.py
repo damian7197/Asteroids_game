@@ -18,6 +18,7 @@ def main():
             
         screen.fill((0,0,0)) #los parametros son el color
         player.draw(screen)
+        player.update(dt)
         pygame.display.flip()
         
         #limitar el framerate a 60 FPS
