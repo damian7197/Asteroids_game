@@ -42,8 +42,12 @@ def main():
             if asteroid.collides_with(player):
                 print("Game over!")  #bucle para detectar colisiones en todos los asteroides
                 sys.exit()
-                
         
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    shot.kill()        
+                    asteroid.kill()
+          
         screen.fill((0,0,0)) #los parametros son el color
         
         for obj in drawable: #se actualizan todos los objetos dibujables
