@@ -1,3 +1,4 @@
+#Modulo creado para almacenar todas las constantes necesarias para el correcto funcionamiento del juego
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 

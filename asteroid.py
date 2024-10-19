@@ -12,3 +12,23 @@ class Asteroid(CircleShape):
         
     def update(self, dt):
         self.position += self.velocity * dt
+    
+    def split(self):
+        self.kill()
+        
+        #finaliza si el asteroide es del minimo tamaño permitido
+        if self.radius <= ASTEROID_MIN_RADIUS:
+            return
+        
+        #genero angulo aleatorio de spliteo
+        random_angle = random.uniform(20,50)
+        
+        vector_1 = self.velocity.rotate(random_angle)
+        vector_2 = self.velocity.rotate(-random_angle)
+        
+        new_radius = self.radius - ASTEROID_MIN_RADIUS
+        asteroid = Asteroid(self.position.x, self.position.y, new_radius)
+        asteroid.velocity = vector_1 * 1.2
+        asteroid = Asteroid(self.position.x, self.position.y, new_radius)
+        asteroid.velocity = vector_2 * 1.2
+        

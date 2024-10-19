@@ -40,13 +40,13 @@ def main():
         
         for asteroid in asteroids:
             if asteroid.collides_with(player):
-                print("Game over!")  #bucle para detectar colisiones en todos los asteroides
+                print("Game over!")  #bucle para detectar colisiones de asteroides con jugador
                 sys.exit()
         
             for shot in shots:
                 if asteroid.collides_with(shot):
-                    shot.kill()        
-                    asteroid.kill()
+                    shot.kill()      #bucle para detectar las colisiones de asteroide con disparos  
+                    asteroid.split()
           
         screen.fill((0,0,0)) #los parametros son el color
         

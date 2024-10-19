@@ -9,6 +9,7 @@ class Player(CircleShape):
         self.rotation = 0
         self.shoot_timer = 0
         
+    #metodo para dibujar la forma de la "nave"
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
 
@@ -26,8 +27,8 @@ class Player(CircleShape):
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt #Ajusto la rotacion en tiempo real
     
-    def update(self, dt): #metodo que define como se comportan las actualizaciones
-        self.shoot_timer -= dt
+    def update(self, dt): #metodo que define como se comportan las actualizaciones en teclado
+        self.shoot_timer -= dt 
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_w]:
