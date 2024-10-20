@@ -52,8 +52,10 @@ def iniciar_sesion(usuarios):
         password = input("Ingrese su contraseña: ")
         if usuarios[nombre_usuario]['password'] == password:
             print(f"Bienvenido a asteroides {nombre_usuario}")
+            return usuarios[nombre_usuario] #retorno diccionario del usuario
         else:
             print("Contraseña incorrecta.")     
     else:
         print("Nombre de usuario incorrecto.")
+    return None #no retorno nada si falla la autenticacion
         
