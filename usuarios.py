@@ -15,6 +15,17 @@ def cargar_usuarios():
 def guardar_usuarios(usuarios):
     with open(archivo_usuarios, 'w') as f:
         json.dump(usuarios, f)
+
+def guardar_high_score(nombre_usuario, puntaje):
+    with open(archivo_usuarios, 'r') as f:
+        usuarios = json.load(f)
+    
+    if usuarios[nombre_usuario]['high_score'] < puntaje:
+        usuarios[nombre_usuario]['high_score'] = puntaje
+        
+        with open('./usuarios.json', 'w') as f:
+            json.dump(usuarios, f)
+
         
 def password_valida(password):
     return re.match("^[a-zA-Z0-9]{8,}$", password) is not None 
@@ -52,7 +63,7 @@ def iniciar_sesion(usuarios):
         password = input("Ingrese su contraseña: ")
         if usuarios[nombre_usuario]['password'] == password:
             print(f"Bienvenido a asteroides {nombre_usuario}")
-            return usuarios[nombre_usuario] #retorno diccionario del usuario
+            return nombre_usuario
         else:
             print("Contraseña incorrecta.")     
     else:

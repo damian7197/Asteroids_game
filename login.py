@@ -1,4 +1,5 @@
 from usuarios import crear_usuario ,cargar_usuarios, iniciar_sesion
+from game_logic import game
         
 
 # Funcion para cargar el menú desde un archivo
@@ -16,13 +17,16 @@ def main():
         print("==========Bienvenido a asteroides!===========")
         for opcion in menu_opciones:
             print(opcion)
-        opcion = input("Seleccione la opcion deseada (1,2,3):")
+        opcion = input("Seleccione la opcion deseada (1,2,3): ")
         print("==============================================")
         
         if opcion == "1":
             crear_usuario(usuarios)
         elif opcion == "2":
-            iniciar_sesion(usuarios)
+            usuario_actual = iniciar_sesion(usuarios)
+            if usuario_actual:
+                print(f"Inicio de sesion exitoso, comenzando el juego como {usuario_actual}")
+                game(usuario_actual)
         elif opcion == "3":
             print("Gracias por jugar asteroides! Hasta la proxima")
             break

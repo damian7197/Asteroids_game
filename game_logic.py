@@ -5,8 +5,10 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from usuarios import guardar_high_score
+import json
 
-def main():
+def game(nombre_usuario):
     pygame.init()  
     #definiendo el tamaño de la pantalla
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
@@ -30,8 +32,13 @@ def main():
     
     score = 0
     font = pygame.font.Font(None, 36)  # fuente para la puntuacion
+    high_score = 0
     
     dt = 0 #delta time, por convencion
+    
+    with open('./usuarios.json', 'r') as f:
+        usuarios = json.load(f)
+        high_score = usuarios[nombre_usuario]['high_score'] 
     
     while True:
         for event in pygame.event.get(): #capturo el evento para cerrar la pantalla
@@ -43,7 +50,8 @@ def main():
         
         for asteroid in asteroids:
             if asteroid.collides_with(player):
-                print("Game Over")
+                print("Game Over!")
+                guardar_high_score(nombre_usuario, score)
                 sys.exit()
         
             for shot in shots:
@@ -74,5 +82,5 @@ def main():
     
          
 
-if __name__ == "__main__":
-    main()
+
+  
