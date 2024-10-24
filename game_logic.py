@@ -7,6 +7,8 @@ from asteroidfield import AsteroidField
 from shot import Shot
 from usuarios import guardar_high_score
 import json
+from high_scores import actualizar_high_scores
+from save_game import show_pause_menu, load_game_state
 
 def game(nombre_usuario):
     pygame.init()  
@@ -27,14 +29,37 @@ def game(nombre_usuario):
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
     
-    player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-    asteroidfield = AsteroidField()
+    load = input("¿Quieres continuar tu última partida? (s/n): ")
+    game_state = None
+    if load == "s":
+        game_state = load_game_state()
+    if game_state:
+        # Restaurar el estado del jugador
+        asteroidfield = AsteroidField()
+        dt = 0
+        player = Player(game_state["player"]["x"], game_state["player"]["y"])
+
+        # Restaurar asteroides
+        for ast in game_state["asteroids"]:
+            #asteroid = asteroidfield.spawn(ast["radius"],(ast["x"], ast["y"]),)
+            asteroid = asteroidfield.update(dt)
+            asteroids.add(asteroid)
+
+        # Restaurar balas
+        for shot_data in game_state["shots"]:
+            shot = Shot(shot_data["x"], shot_data["y"])
+            shots.add(shot)
+
+        score = game_state["score"]
+ 
+    else:
+        player = Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+        score = 0
+        asteroidfield = AsteroidField()
+        dt = 0 #delta time, por convencion
     
-    score = 0
     font = pygame.font.Font(None, 36)  # fuente para la puntuacion
     high_score = 0
-    
-    dt = 0 #delta time, por convencion
     
     with open('./usuarios.json', 'r') as f:
         usuarios = json.load(f)
@@ -44,6 +69,9 @@ def game(nombre_usuario):
         for event in pygame.event.get(): #capturo el evento para cerrar la pantalla
             if event.type == pygame.QUIT:
                 return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:  # Pausar el juego
+                    show_pause_menu(player, asteroids, shots, score, screen, clock)
             
         for obj in updatable: #se actualizan todos los objetos actualizables
             obj.update(dt)
@@ -52,6 +80,7 @@ def game(nombre_usuario):
             if asteroid.collides_with(player):
                 print("Game Over!")
                 guardar_high_score(nombre_usuario, score)
+                actualizar_high_scores(nombre_usuario,score,"./high_scores.csv")
                 sys.exit()
         
             for shot in shots:

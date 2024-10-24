@@ -1,3 +1,4 @@
 1 - Crear un usuario nuevo
 2 - Ingresar con usuario existente
 3 - Salir del programa
+4 - Tabla de High-Scores
