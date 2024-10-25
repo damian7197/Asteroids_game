@@ -29,9 +29,9 @@ def game(nombre_usuario):
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
     
-    load = input("¿Quieres continuar tu última partida? (s/n): ")
+    load = input("¿Quieres continuar tu última partida? (S/n): ") or "s"
     game_state = None
-    if load == "s":
+    if load.lower() == "s":
         game_state = load_game_state()
     if game_state:
         # Restaurar el estado del jugador
@@ -41,15 +41,24 @@ def game(nombre_usuario):
 
         # Restaurar asteroides
         for ast in game_state["asteroids"]:
-            #asteroid = asteroidfield.spawn(ast["radius"],(ast["x"], ast["y"]),)
-            asteroid = asteroidfield.update(dt)
+            asteroid = asteroidfield.spawn(ast["radius"],pygame.Vector2(ast["x"], ast["y"]),pygame.Vector2(ast["velocity"]["x"],ast["velocity"]["y"]))
             asteroids.add(asteroid)
 
         # Restaurar balas
         for shot_data in game_state["shots"]:
-            shot = Shot(shot_data["x"], shot_data["y"])
-            shots.add(shot)
-
+            x, y = shot_data["x"], shot_data["y"]
+            if 0 <= x <= SCREEN_WIDTH and 0 <= y <= SCREEN_HEIGHT:
+                shot = Shot(x, y, pygame.Vector2(shot_data["velocity"]["x"], shot_data["velocity"]["y"]))
+                shots.add(shot)
+                print(f"Shot loaded at position ({x}, {y}) with velocity {shot_data['velocity']}")
+            else:
+                print(f"Shot at position ({x}, {y}) skipped as it's outside screen bounds.")
+           
+            #shot = Shot(shot_data["x"], shot_data["y"],pygame.Vector2(shot_data["velocity"]["x"], shot_data["velocity"]["y"]))
+            #shots.add(shot)
+            
+            
+        
         score = game_state["score"]
  
     else:

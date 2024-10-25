@@ -1,20 +1,24 @@
-import pandas as pd
+import csv
 
 # Función para cargar los high scores desde el archivo CSV
 def cargar_high_scores(filename):
-    df = pd.read_csv(filename)  
-    return list(zip(df['nombre_usuario'], df['score']))  # Crear lista de tuplas (nombre_usuario, score)
+    high_scores = []
+    with open(filename, mode='r', newline='', encoding='utf-8') as file:
+        reader = csv.reader(file)
+        next(reader)  # Saltar el encabezado
+        for row in reader:
+            high_scores.append((row[0], int(row[1])))  # Convertir el score a entero
+    return high_scores
 
 def guardar_high_scores(high_scores, filename):
-    # Convertir la lista a un DataFrame de Pandas
-    df = pd.DataFrame(high_scores, columns=['nombre_usuario', 'score'])
-    # Ordenar los high scores en orden descendente
-    df = df.sort_values(by='score', ascending=False)
+    # Ordenar los high scores en orden descendente y tomar los primeros 5
+    high_scores = sorted(high_scores, key=lambda x: x[1], reverse=True)[:5]
     
-    df = df.head(5)
-
-    df.to_csv(filename, index=False) 
-
+    with open(filename, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(['nombre_usuario', 'score'])  # Escribir el encabezado
+        writer.writerows(high_scores)  # Escribir los high scores
+        
 def actualizar_high_scores(nombre_usuario, nuevo_score, filename):
     high_scores = cargar_high_scores(filename)  # Cargar los high scores existentes
     high_scores.append((nombre_usuario, nuevo_score))  # Agregar el nuevo score a la lista

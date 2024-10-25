@@ -12,11 +12,11 @@ def save_actual_game(player, asteroids,shots,score,filename="./savegame.json"):
             "y" : player.position.y
         },
         "asteroids" : [
-            {"x": asteroid.position.x, "y": asteroid.position.y, "radius" : asteroid.radius}
+            {"x": asteroid.position.x, "y": asteroid.position.y, "radius" : asteroid.radius,"velocity" : {"x" : asteroid.velocity.x, "y" :asteroid.velocity.y}}
             for asteroid in asteroids
         ],
         "shots" : [
-            {"x" : shot.position.x, "y" : shot.position.y}
+            {"x" : shot.position.x, "y" : shot.position.y, "velocity" : {"x" : shot.velocity.x, "y" : shot.velocity.y}}
             for shot in shots
         ],
         "score": score 

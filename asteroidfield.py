@@ -36,9 +36,9 @@ class AsteroidField(pygame.sprite.Sprite):
         self.spawn_timer = 0.0
 
     def spawn(self, radius, position, velocity):
-        asteroid = Asteroid(position.x, position.y, radius) #creo un asteroide y le doy su velocidad
-        asteroid.velocity = velocity
-
+        asteroid = Asteroid(position.x, position.y, radius, velocity) 
+        return asteroid #creo un asteroide y le doy su velocidad
+    
     def update(self, dt):
         #Contador para manejar el tiempo de spawn de los asteroides
         self.spawn_timer += dt
@@ -48,7 +48,7 @@ class AsteroidField(pygame.sprite.Sprite):
             #Spawneo un nuevo asteoide en un eje al azar
             edge = random.choice(self.edges)
             speed = random.randint(40, 100)
-            velocity = edge[0] * speed #uso el vector del eje seleccionado y le doy su velocidad
+            velocity = edge[0] * speed#uso el vector del eje seleccionado y le doy su velocidad
             velocity = velocity.rotate(random.randint(-30, 30)) #altero un poco la direccion del vector -> (asteroide)
             position = edge[1](random.uniform(0, 1)) #Genero un valor entre 0 y 1 para lambda
             kind = random.randint(1, ASTEROID_KINDS)

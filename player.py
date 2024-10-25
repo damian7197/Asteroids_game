@@ -52,7 +52,7 @@ class Player(CircleShape):
         if self.shoot_timer > 0: #if para regular la cadencia den disparo
             return
         self.shoot_timer = PLAYER_SHOOT_COOLDOWN
-        shot = Shot(self.position.x, self.position.y) #metodo para disparar en la posicion de la nave
+        shot = Shot(self.position.x, self.position.y,self.velocity) #metodo para disparar en la posicion de la nave
         shot.velocity = pygame.Vector2(0,1).rotate(self.rotation) * PLAYER_SHOOT_SPEDD 
         
     
